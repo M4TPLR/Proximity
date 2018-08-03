@@ -17,10 +17,11 @@ class CreateProductsTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('title');
-            $table->mediumText('Description');
+            $table->mediumText('description');
             $table->decimal('quantity');
             $table->decimal('price', 8, 2);
             $table->string('imgurl');
+            $table->integer('store_id');
         });
     }
 
