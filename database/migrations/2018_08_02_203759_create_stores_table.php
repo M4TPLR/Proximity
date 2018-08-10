@@ -21,6 +21,7 @@ class CreateStoresTable extends Migration
             $table->string('imgurl');
             $table->string('ShippingType');
             $table->integer('area_id');
+            $table->integer('user_id');
         });
     }
 

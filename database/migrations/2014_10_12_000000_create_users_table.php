@@ -18,10 +18,10 @@ class CreateUsersTable extends Migration
             $table->string('name');
             $table->string('email')->unique();
             $table->string('password');
-            $table->mediumInteger('phone');
-            $table->string('role');
-            $table->string('imgurl');
-            $table->mediumText('bio');
+            $table->mediumInteger('phone')->default(0);
+            $table->string('role')->default('client');
+            $table->string('imgurl')->default('/basic');
+            $table->string('bio')->default('Descirbe yourself!');
             $table->rememberToken();
             $table->timestamps();
         });

@@ -2,7 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ProductRequest;
+use App\Store;
+use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
+use App\Product;
 
 class ProductController extends Controller
 {
@@ -13,17 +17,8 @@ class ProductController extends Controller
      */
     public function index()
     {
-        //
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
+        $products = Product::all();
+        return response()->json($products);
     }
 
     /**
@@ -32,9 +27,22 @@ class ProductController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(ProductRequest $request)
     {
-        //
+        //$profilePic = $request->file('imgurl');
+        //$profilePic->store('profiles');           uncomment for testing
+
+        $product = new Product();
+        $product->title = $request->input('title');
+        $product->description = $request->input('description');
+        $product->quantity = $request->input('quantity');
+        $product->price = $request->input('price');
+        $product->imgurl = "testfolder";
+        $product->store_id = 1;
+        $product->save();
+        //$product->imgurl = $profilePic->path(); uncomment for testing
+
+        $product->save();
     }
 
     /**
