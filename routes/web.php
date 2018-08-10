@@ -20,6 +20,3 @@ Route::get('/', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-
-Route::get('/products', 'ProductController@index');
-Route::post('/products/store', 'ProductController@store');
