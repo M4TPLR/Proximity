@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class Area extends Model
 {
-    public function stores(){
-        return $this->hasMany('App\Store');
+    public function shops(){
+        return $this->hasMany('App\Shop');
     }
 }

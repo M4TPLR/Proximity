@@ -12,8 +12,8 @@ class Product extends Model
         return $this->belongsToMany('App\Category');
     }
 
-    public function store(){
-        return $this->belongsTo('App\Store');
+    public function shop(){
+        return $this->belongsTo('App\Shop');
     }
 
     protected $table = 'products';
