@@ -22,6 +22,7 @@ class CreateProductsTable extends Migration
             $table->decimal('price', 8, 2);
             $table->string('imgurl');
             $table->integer('shop_id');
+            $table->softDeletes();
         });
     }
 

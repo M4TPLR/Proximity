@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProductRequest;
-use App\Store;
+use App\Http\Resources\ProductResource;
+use App\Http\Resources\UserResource;
+use App\Shop;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\Request;
 use App\Product;
@@ -18,7 +20,7 @@ class ProductController extends Controller
     public function index()
     {
         $products = Product::all();
-        return response()->json($products);
+        return UserResource::collection($products);
     }
 
     /**
@@ -38,11 +40,13 @@ class ProductController extends Controller
         $product->quantity = $request->input('quantity');
         $product->price = $request->input('price');
         $product->imgurl = "testfolder";
-        $product->store_id = 1;
+        $product->shop()->associate(Shop::find(1));
         $product->save();
         //$product->imgurl = $profilePic->path(); uncomment for testing
 
         $product->save();
+
+        return e('Product created');
     }
 
     /**
@@ -53,19 +57,10 @@ class ProductController extends Controller
      */
     public function show($id)
     {
-
+        $product = Product::find($id);
+        return new ProductResource($product);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function edit($id)
-    {
-        //
-    }
 
     /**
      * Update the specified resource in storage.
@@ -76,7 +71,14 @@ class ProductController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $product = Product::find($id);
+        $product->title = $request->input('title');
+        $product->description = $request->input('description');
+        $product->quantity = $request->input('quantity');
+        $product->price = $request->input('price');
+        $product->imgurl = $request->input('imgurl');
+
+        return e('Product updated');
     }
 
     /**
@@ -87,6 +89,7 @@ class ProductController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $product = App\Product::find($id);
+        $product->delete();
     }
 }
