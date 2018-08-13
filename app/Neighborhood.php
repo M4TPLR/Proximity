@@ -13,4 +13,8 @@ class Neighborhood extends Model
 
     protected $spatialFields = ['geometry'];
 
+    public function addresses(){
+        return $this->hasMany('App\Address');
+    }
+
 }
