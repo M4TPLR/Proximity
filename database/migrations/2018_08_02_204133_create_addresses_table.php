@@ -17,10 +17,10 @@ class CreateAddressesTable extends Migration
             $table->increments('id');
             $table->timestamps();
             $table->string('firstLine');
-            $table->string('secondLine');
+            $table->string('secondLine')->nullable();
             $table->string('country');
             $table->string('city');
-            $table->integer('number');
+            $table->integer('postcode'); //zip
             $table->decimal('latitude');
             $table->decimal('longitude');
             $table->integer('neighborhood_id');

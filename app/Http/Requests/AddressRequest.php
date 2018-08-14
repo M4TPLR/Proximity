@@ -28,7 +28,7 @@ class AddressRequest extends FormRequest
             'secondLine' => 'nullable',
             'country' => 'required|alpha',
             'city' => 'required|alpha',
-            'number' => 'required|numeric',
+            'postcode' => 'required|numeric',
         ];
     }
 }

@@ -8,7 +8,7 @@ $factory->define(App\Address::class, function (Faker $faker) {
         'secondLine' => "No second line",
         'country' => $faker->country,
         'city' => $faker->city,
-        'number' => $faker->buildingNumber,
+        'postcode' => $faker->postcode,
         'latitude' => $faker->latitude,
         'longitude' => $faker->longitude,
     ];

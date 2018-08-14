@@ -44,8 +44,6 @@ class ProductController extends Controller
         $product->save();
         //$product->imgurl = $profilePic->path(); uncomment for testing
 
-        $product->save();
-
         return e('Product created');
     }
 

@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Address;
 use App\Http\Requests\AddressRequest;
 use App\Http\Resources\AddressResource;
+use App\Neighborhood;
+
+use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
 
 class AddressController extends Controller
@@ -23,13 +26,40 @@ class AddressController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  AddressRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(AddressRequest $request)
     {
         $address = new Address();
-        
+        $address->firstLine = $request->input('firstLine');
+        $address->secondLine = $request->input('secondLine');
+        $address->country = $request->input('country');
+        $address->city = $request->input('city');
+        $address->postcode = $request->input('postcode');
+
+        $geocoder = app('geocoder');
+
+        $postalAddress = $address->firstLine . ', ' . $address->city . ', ' . $address->country;
+        $result = $geocoder->geocode($postalAddress)->get()->first();
+        if (!$result){
+            return e('An error has occured... No address is corresponding - '. $postalAddress);
+        }
+
+        $address->latitude = $result->getCoordinates()->getLatitude();
+        $address->longitude = $result->getCoordinates()->getLongitude();
+
+        if(Neighborhood::where('city', strtolower($address->city))->count() != 0){
+            $point = new Point($address->latitude, $address->longitude);
+            $neighborhood = Neighborhood::contains('geometry', $point)->first();
+
+            if($neighborhood) {
+                $address->neighborhood()->associate($neighborhood);
+            }
+        }
+
+        $address->save();
+        return e('The address has been stored!');
     }
 
     /**
