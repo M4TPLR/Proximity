@@ -38,25 +38,7 @@ class AddressController extends Controller
         $address->city = $request->input('city');
         $address->postcode = $request->input('postcode');
 
-        $geocoder = app('geocoder');
-
-        $postalAddress = $address->firstLine . ', ' . $address->city . ', ' . $address->country;
-        $result = $geocoder->geocode($postalAddress)->get()->first();
-        if (!$result){
-            return e('An error has occured... No address is corresponding - '. $postalAddress);
-        }
-
-        $address->latitude = $result->getCoordinates()->getLatitude();
-        $address->longitude = $result->getCoordinates()->getLongitude();
-
-        if(Neighborhood::where('city', strtolower($address->city))->count() != 0){
-            $point = new Point($address->latitude, $address->longitude);
-            $neighborhood = Neighborhood::contains('geometry', $point)->first();
-
-            if($neighborhood) {
-                $address->neighborhood()->associate($neighborhood);
-            }
-        }
+        $this->findNeighborhood($address);
 
         $address->save();
         return e('The address has been stored!');
@@ -81,9 +63,19 @@ class AddressController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(AddressRequest $request, $id)
     {
-        //
+        $address = Address::find($id);
+        $address->firstLine = $request->input('firstLine');
+        $address->secondLine = $request->input('secondLine');
+        $address->country = $request->input('country');
+        $address->city = $request->input('city');
+        $address->postcode = $request->input('postcode');
+
+        $this->findNeighborhood($address);
+
+        $address->save();
+        return e('The address has been updated!');
     }
 
     /**
@@ -94,6 +86,35 @@ class AddressController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $address = Address::find($id);
+
+        if($address){
+            $address->delete();
+        }
+    }
+
+    protected function findNeighborhood($address){
+        $geocoder = app('geocoder');
+
+        $postalAddress = $address->firstLine . ', ' . $address->city . ', ' . $address->country;
+        $result = $geocoder->geocode($postalAddress)->get()->first();
+        if (!$result){
+            return e('An error has occured... No address is corresponding - '. $postalAddress);
+        }
+
+        $address->latitude = $result->getCoordinates()->getLatitude();
+        $address->longitude = $result->getCoordinates()->getLongitude();
+
+        if(Neighborhood::where('city', strtolower($address->city))->count() != 0){
+            $point = new Point($address->latitude, $address->longitude);
+            $neighborhood = Neighborhood::contains('geometry', $point)->first();
+
+            if($neighborhood) {
+                $address->neighborhood()->associate($neighborhood);
+            }
+        }
+
+        return $address;
+
     }
 }

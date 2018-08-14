@@ -88,6 +88,9 @@ class ProductController extends Controller
     public function destroy($id)
     {
         $product = App\Product::find($id);
-        $product->delete();
+
+        if ($product){
+            $product->delete();
+        }
     }
 }
