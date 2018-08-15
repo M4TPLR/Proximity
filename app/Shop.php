@@ -10,11 +10,12 @@ class Shop extends Model
         return $this->hasMany('App\Product');
     }
 
-    public function area(){
-        return $this->belongsTo('App\Area');
-    }
 
     public function user(){
         return $this->belongsTo('App\User');
+    }
+
+    public function address(){
+        return $this->hasOne('App\Address');
     }
 }

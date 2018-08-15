@@ -13,7 +13,6 @@ class ShopsTableSeeder extends Seeder
     {
         factory(App\Shop::class, 80)->create()->each(function ($u){
             $u->user()->associate(App\User::find(rand(1, 50)));
-            $u->area()->associate(App\Area::find(rand(1,10)));
             $u->save();
         });
     }

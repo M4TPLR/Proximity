@@ -20,7 +20,6 @@ class CreateShopsTable extends Migration
             $table->string('description');
             $table->string('imgurl');
             $table->string('ShippingType');
-            $table->integer('area_id');
             $table->integer('user_id');
         });
     }

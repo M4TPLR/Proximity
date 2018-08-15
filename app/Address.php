@@ -14,4 +14,8 @@ class Address extends Model
     public function neighborhood(){
         return $this->belongsTo('App\Neighborhood');
     }
+
+    public function shop(){
+        return $this->belongsTo('App\Shop');
+    }
 }
