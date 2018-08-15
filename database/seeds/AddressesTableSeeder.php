@@ -13,7 +13,6 @@ class AddressesTableSeeder extends Seeder
     {
         factory(App\Address::class, 50)->create()->each(function ($u){
             $u->neighborhood()->associate(rand(1,60));
-            $u->shop()->associate(rand(1, 50));
             $u->save();
         });
     }

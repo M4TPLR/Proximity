@@ -16,6 +16,10 @@ class Address extends Model
     }
 
     public function shop(){
-        return $this->belongsTo('App\Shop');
+        return $this->hasOne('App\Shop');
+    }
+
+    public function user(){
+        return $this->hasOne('App\User');
     }
 }

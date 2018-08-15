@@ -24,7 +24,6 @@ class CreateAddressesTable extends Migration
             $table->decimal('latitude');
             $table->decimal('longitude');
             $table->integer('neighborhood_id');
-            $table->integer('shop_id');
             $table->softDeletes();
         });
     }

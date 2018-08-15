@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration
             $table->string('role')->default('client');
             $table->string('imgurl')->default('/basic');
             $table->string('bio')->default('Descirbe yourself!');
+            $table->integer('address_id');
             $table->rememberToken();
             $table->timestamps();
         });
