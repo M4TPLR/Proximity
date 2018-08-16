@@ -23,7 +23,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-        Auth::login(User::find(1));
         if (Auth::check()) {
             return response()->json($this->orderByDistance($this->findShopsByNeighborhood()->get()));
         } else {
@@ -143,7 +142,6 @@ class ProductController extends Controller
     public function findShopsByNeighborhood()
     {
         if (Auth::check()) {
-
             $neighborhood = Auth::user()->address->neighborhood;
             if ($neighborhood AND $neighborhood->id != 0) {
                 $products = Product::whereHas('shop.address.neighborhood', function ($query) use ($neighborhood) {

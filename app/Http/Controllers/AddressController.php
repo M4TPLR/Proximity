@@ -9,6 +9,7 @@ use App\Neighborhood;
 
 use Grimzy\LaravelMysqlSpatial\Types\Point;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AddressController extends Controller
 {
@@ -41,6 +42,9 @@ class AddressController extends Controller
         $this->findNeighborhood($address);
 
         $address->save();
+        $user = Auth::user()->address()->associate($address);
+        $user->save();
+
         return e('The address has been stored!');
     }
 
