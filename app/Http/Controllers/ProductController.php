@@ -25,7 +25,7 @@ class ProductController extends Controller
     {
         Auth::login(User::find(1));
         if (Auth::check()) {
-            return ProductResource::collection($this->findShopsByNeighborhood()->get());
+            return response()->json($this->orderByDistance($this->findShopsByNeighborhood()->get()));
         } else {
             return ProductResource::collection(Product::all());
         }
