@@ -24,7 +24,6 @@ class ShopResource extends JsonResource
             'description' => $this->description,
             'imgurl' => $this->imgurl,
             'ShippingType' => $this->ShippingType,
-            'area' => new AreaResource(Area::find($this->area_id)),
             'user' => new UserResource(User::find($this->user_id)),
         ];    }
 }
