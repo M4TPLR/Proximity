@@ -20,6 +20,10 @@ class Product extends Model
         return $this->belongsTo('App\Shop');
     }
 
+    public function baskets(){
+        return $this->hasMany('App\Basket');
+    }
+
     protected $table = 'products';
 
     protected $dates = ['deleted_at'];
